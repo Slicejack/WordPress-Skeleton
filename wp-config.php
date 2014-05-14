@@ -11,13 +11,22 @@ if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 	define( 'DB_USER', '%%DB_USER%%' );
 	define( 'DB_PASSWORD', '%%DB_PASSWORD%%' );
 	define( 'DB_HOST', '%%DB_HOST%%' ); // Probably 'localhost'
+
+    define( 'WP_ROOT', '%%WP_ROOT%%' );
 }
+
+// ========================
+// Custom siteurl and home
+// ========================
+define('WP_SITEURL', 'http://' . WP_ROOT . '/wp');
+define('WP_HOME', 'http://' . WP_ROOT);
 
 // ========================
 // Custom Content Directory
 // ========================
 define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
-define( 'WP_CONTENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/content' );
+define( 'WP_CONTENT_URL', 'http://' . WP_ROOT . '/content' );
+define( 'UPLOADS', '../shared/content/uploads' );
 
 // ================================================
 // You almost certainly do not want to change these
@@ -53,21 +62,14 @@ define( 'WPLANG', '' );
 // ===========
 // Hide errors
 // ===========
-ini_set( 'display_errors', 0 );
-define( 'WP_DEBUG_DISPLAY', false );
-
-// =================================================================
-// Debug mode
-// Debugging? Enable these. Can also enable them in local-config.php
-// =================================================================
-// define( 'SAVEQUERIES', true );
-// define( 'WP_DEBUG', true );
+ini_set( 'display_errors', true );
+define( 'WP_DEBUG_DISPLAY', true );
 
 // ======================================
 // Load a Memcached config if we have one
 // ======================================
 if ( file_exists( dirname( __FILE__ ) . '/memcached.php' ) )
-	$memcached_servers = include( dirname( __FILE__ ) . '/memcached.php' );
+    $memcached_servers = include( dirname( __FILE__ ) . '/memcached.php' );
 
 // ===========================================================================================
 // This can be used to programatically set the stage when deploying (e.g. production, staging)
@@ -79,5 +81,5 @@ define( 'STAGING_DOMAIN', '%%WP_STAGING_DOMAIN%%' ); // Does magic in WP Stack t
 // Bootstrap WordPress
 // ===================
 if ( !defined( 'ABSPATH' ) )
-	define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
+    define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
 require_once( ABSPATH . 'wp-settings.php' );
